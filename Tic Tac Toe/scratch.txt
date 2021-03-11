@@ -1,0 +1,9 @@
+Tic Tac Toe:
+    Tic Tac Toe ist ein konsolenbasiertes Spiel, bei welchem ein Spieler gegen eine KI antritt.
+
+Logik:
+    1. Beim starten des Spiels wird zufällig bestimmt als was die KI spielt.
+    2. Die spieler wecheln sich nach jedem Zug ab. X beginnt. Ein Zug entspricht einem Gesetzten Zeichen.
+    3. Man darf nur freie Felder setzen.
+    4. Die Spielfeldgröße beträgt n
+    5. Sobald ein Spieler in einer Zeile/Spalte/Diagonale n gleiche Zeichen platzieren konnte.
