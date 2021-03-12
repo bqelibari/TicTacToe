@@ -10,3 +10,4 @@ Logik:
     6. Die Spielfeldgröße beträgt n*n.
     7. Sobald ein Spieler in einer Zeile/Spalte/Diagonale n seiner Symbole platzieren konnte, hat gewonnen
     und das Spiel ist beendet.
+    8. Es müssen zwischen 2 und n Spieler mitspielen.
