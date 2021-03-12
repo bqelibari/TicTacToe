@@ -63,4 +63,4 @@ assert is_winning_state() == False
 gamefield = ["x", "x", "x", "y", "", "", "", "y", ""]
 assert is_winning_state() == True
 gamefield = ["x", "x", "x", "y", "", "", "", "y", ""]
-assert is_winning_state() == True
+assert is_winning_state() == False
