@@ -41,6 +41,12 @@ def place_symbol(x_coordinate: int, y_coordinate: int) -> None:
 def is_winning_state() -> bool:
     global gamefield, SQUARE_GAMEFIELD_SIZE
 
+    if three_in_a_row():
+        return True
+    return False
+
+def three_in_a_row():
+    global gamefield, SQUARE_GAMEFIELD_SIZE
     for index in range(SQUARE_GAMEFIELD_SIZE):
         last_symbol = None
         for current_symbol in gamefield[index * SQUARE_GAMEFIELD_SIZE:index * SQUARE_GAMEFIELD_SIZE + SQUARE_GAMEFIELD_SIZE]:
@@ -51,7 +57,9 @@ def is_winning_state() -> bool:
             last_symbol = current_symbol
             if symbol_counter == SQUARE_GAMEFIELD_SIZE:
                 return True
-    return False
+
+def three_in_a_column():
+    global gamefield, SQUARE_GAMEFIELD_SIZE
 
 
 gamefield = ["x", "x", "x", "y", "", "", "", "y", ""]
