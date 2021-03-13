@@ -10,6 +10,7 @@ def new_game(symbols: list[str]) -> None:
     player_symbols = list(symbols)
     gamefield = ["" for i in range(SQUARE_GAMEFIELD_SIZE ** 2)]
 
+
 def place_symbol(x_coordinate: int, y_coordinate: int) -> None:
     global active_player, gamefield, SQUARE_GAMEFIELD_SIZE
     is_valid_coordinates = _validate_coordinates(x_coordinate, y_coordinate)
@@ -20,9 +21,11 @@ def place_symbol(x_coordinate: int, y_coordinate: int) -> None:
         if not is_winning_state():
             _next_player()
 
+
 def is_winning_state() -> bool:
     is_diagonal_win = _is_left_diagonal_win() or _is_right_diagonal_win()
-    return is_diagonal_win or _is_horizontal_win() or _is_vertical_win()
+    return is_diagonal_win or _is_vertical_or_horizontal_win()
+
 
 def _next_player() -> None:
     global active_player
@@ -31,12 +34,14 @@ def _next_player() -> None:
 
     active_player = next_player % number_of_players
 
+
 def _validate_coordinates(x_coordinate: int, y_coordinate: int) -> bool:
     global SQUARE_GAMEFIELD_SIZE
     is_x_coordinate_in_gamefield = 1 <= x_coordinate <= SQUARE_GAMEFIELD_SIZE
     is_y_coordinate_in_gamefield = 1 <= y_coordinate <= SQUARE_GAMEFIELD_SIZE
 
     return is_x_coordinate_in_gamefield and is_y_coordinate_in_gamefield
+
 
 def _calculate_list_index_from_coordinates(x_coordinate: int, y_coordinate: int) -> int:
     global SQUARE_GAMEFIELD_SIZE
@@ -45,7 +50,8 @@ def _calculate_list_index_from_coordinates(x_coordinate: int, y_coordinate: int)
 
     return horizontal_field_index + vertical_push
 
-def _check_for_same_symbols(coordinate_list: list[(int, int)]) -> bool:
+
+def _check_for_same_symbols(coordinate_list):
     global gamefield
     last_symbol = None
     is_first_symbol = True
@@ -53,38 +59,28 @@ def _check_for_same_symbols(coordinate_list: list[(int, int)]) -> bool:
     for x_coordinate, y_coordinate in coordinate_list:
         gamefield_index = _calculate_list_index_from_coordinates(x_coordinate, y_coordinate)
         current_symbol = gamefield[gamefield_index]
-        if (not is_first_symbol and current_symbol != last_symbol):
+        if not is_first_symbol and current_symbol != last_symbol:
             return False
         last_symbol = current_symbol
         is_first_symbol = False
 
     return last_symbol != ""
 
-def _is_horizontal_win() -> bool:
+
+def _is_vertical_or_horizontal_win() -> bool:
     global gamefield
 
-    for row in range(1, SQUARE_GAMEFIELD_SIZE + 1):
-        coordinate_list = []
-        for x_coordinate in range(1, SQUARE_GAMEFIELD_SIZE + 1):
-            coordinate_list.append((x_coordinate, row))
+    coordinate_list = [[(x_coordinate, row) for row in range(1, SQUARE_GAMEFIELD_SIZE + 1)]
+                       for x_coordinate in range(1, SQUARE_GAMEFIELD_SIZE + 1)] + \
+                      [[(column, y_coordinate) for column in range(1, SQUARE_GAMEFIELD_SIZE + 1)]
+                       for y_coordinate in range(1, SQUARE_GAMEFIELD_SIZE + 1)]
 
-        are_same_symbols = _check_for_same_symbols(coordinate_list)
+    for coordinate_sublist in coordinate_list:
+        are_same_symbols = _check_for_same_symbols(coordinate_sublist)
         if are_same_symbols:
             return True
     return False
 
-def _is_vertical_win() -> bool:
-    global gamefield
-
-    for column in range(1, SQUARE_GAMEFIELD_SIZE + 1):
-        coordinate_list = []
-        for y_coordinate in range(1, SQUARE_GAMEFIELD_SIZE + 1):
-            coordinate_list.append((column, y_coordinate))
-
-        are_same_symbols = _check_for_same_symbols(coordinate_list)
-        if are_same_symbols:
-            return True
-    return False
 
 def _is_left_diagonal_win() -> bool:
     global SQUARE_GAMEFIELD_SIZE
@@ -92,8 +88,76 @@ def _is_left_diagonal_win() -> bool:
     coordinate_list = [(x_coordinate, x_coordinate) for x_coordinate in range(1, SQUARE_GAMEFIELD_SIZE + 1)]
     return _check_for_same_symbols(coordinate_list)
 
+
 def _is_right_diagonal_win() -> bool:
     global SQUARE_GAMEFIELD_SIZE
 
-    coordinate_list = [(x_coordinate + 1, y_coordinate) for x_coordinate,y_coordinate in enumerate(range(SQUARE_GAMEFIELD_SIZE, 0, -1))]
+    coordinate_list = [(x_coordinate + 1, y_coordinate) for x_coordinate, y_coordinate in
+                       enumerate(range(SQUARE_GAMEFIELD_SIZE, 0, -1))]
     return _check_for_same_symbols(coordinate_list)
+
+
+gamefield = ["x", "x", "y",
+             "x", "x", "y",
+             "y", "y", "x"]
+assert is_winning_state() == True
+
+gamefield = ["", "", "x",
+             "", "x", "",
+             "x", "", ""]
+assert is_winning_state() == True
+
+gamefield = ["x", "", "",
+             "x", "", "",
+             "x", "", ""]
+assert is_winning_state() == True
+
+gamefield = ["", "x", "",
+             "", "x", "",
+             "", "x", ""]
+assert is_winning_state() == True
+
+gamefield = ["", "", "x",
+             "", "", "x",
+             "", "", "x"]
+assert is_winning_state() == True
+
+gamefield = ["x", "x", "x",
+             "x", "x", "v",
+             "c", "v", "c"]
+assert is_winning_state() == True
+
+gamefield = ["", "", "",
+             "x", "x", "x",
+             "", "", ""]
+assert is_winning_state() == True
+
+gamefield = ["", "", "",
+             "", "", "",
+             "x", "x", "x"]
+assert is_winning_state() == True
+
+gamefield = ["x", "", "",
+             "x", "", "",
+             "x", "", ""]
+assert is_winning_state() == True
+
+gamefield = ["", "x", "",
+             "", "x", "",
+             "", "x", ""]
+assert is_winning_state() == True
+
+gamefield = ["", "", "x",
+             "", "", "x",
+             "", "", "x"]
+assert is_winning_state() == True
+
+gamefield = ["x", "y", "x",
+             "x", "x", "y",
+             "y", "d", "y"]
+assert is_winning_state() == False
+
+gamefield = ["", "", "",
+             "", "", "",
+             "", "", ""]
+assert is_winning_state() == False
