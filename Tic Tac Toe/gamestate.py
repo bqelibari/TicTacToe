@@ -82,6 +82,7 @@ def _is_vertical_or_horizontal_win() -> bool:
     return False
 
 
+
 def _is_left_diagonal_win() -> bool:
     global SQUARE_GAMEFIELD_SIZE
 
