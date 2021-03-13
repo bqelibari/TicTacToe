@@ -5,7 +5,6 @@ active_player = 0
 gamefield = []
 
 
-
 def new_game(symbols: list[str]) -> None:
     global player_symbols, active_player, gamefield
     player_symbols = list(symbols)
