@@ -20,7 +20,7 @@ class Coordinate:
         self.column = column
         self.row = row
         self._size = SQUARE_GAMEFIELD_SIZE
-        self._validate_coordinates_or_throw_exception( )
+        self._validate_coordinates_or_throw_exception()
 
     def _validate_coordinates_or_throw_exception(self) -> bool:
         is_column_in_gamefield = 1 <= self.column <= self._size
@@ -89,6 +89,9 @@ class Gamefield:
         for row in range(1, self.size + 1):
             yield self.get_row_fields(row)
 
+
     def get_fields_per_column(self):
         for column in range(1, self.size + 1):
             yield self.get_column_fields(column)
+
+

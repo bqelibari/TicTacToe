@@ -30,8 +30,7 @@ class Test_Gamefield(unittest.TestCase):
     def test_getColumnFields_firstColumn_yieldsFirstColumn(self):
         generator = self.gamefield.get_column_fields(1)
         self.assertEqual(next(generator), Field(Coordinate(1, 1), ""))
-        for field in generator:
-            pass
+        for field in generator: pass
         self.assertEqual(field, Field(Coordinate(1, SQUARE_GAMEFIELD_SIZE), ""))
 
     def test_getRowFields_firstRow_yieldsFirstRow(self):
@@ -52,18 +51,15 @@ class Test_Gamefield(unittest.TestCase):
         for field in generator: pass
         self.assertEqual(field, Field(Coordinate(1, SQUARE_GAMEFIELD_SIZE), ""))
 
-    def test_getFieldsPerRow_firstRow_returnsFirstRowFieldsAsList(self):
-        rowList = self.gamefield.get_fields_per_row( )
-        self.assertEqual(rowList[0], Field(Coordinate(1, 1), ""))
-        self.assertEqual(rowList[-1], Field(Coordinate(SQUARE_GAMEFIELD_SIZE, 1), ""))
+    def test_getFieldsPerRow_returnsRowFields(self):
+        generator = self.gamefield.get_fields_per_row( )
+        self.assertEqual(next(next(generator)), Field(Coordinate(1, 1), ""))
+        for row_fields in generator: pass
+        self.assertEqual(next(row_fields), Field(Coordinate(1, SQUARE_GAMEFIELD_SIZE), ""))
 
-    def test_getFieldsPerRow_lastRow_returnsLastRowFieldsAsList(self):
-        row_list = self.gamefield.get_fields_per_row( )
-        self.assertEqual(row_list[0], Field(Coordinate(1, SQUARE_GAMEFIELD_SIZE), ""))
-        self.assertEqual(row_list[-1], Field(Coordinate(SQUARE_GAMEFIELD_SIZE, SQUARE_GAMEFIELD_SIZE), ""))
+    def test_getFieldsPerColumn_returnsColumnFields(self):
+        generator = self.gamefield.get_fields_per_column()
+        self.assertEqual(next(next(generator)), Field(Coordinate(1, 1), ""))
+        for column_fields in generator: pass
+        self.assertEqual(next(column_fields), Field(Coordinate(SQUARE_GAMEFIELD_SIZE, 1)))
 
-    def test_get_fields_per_column(self):
-        pass
-
-    def tearDown(self) -> None:
-        pass
